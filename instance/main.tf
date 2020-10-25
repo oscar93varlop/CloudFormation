@@ -21,15 +21,7 @@ resource "aws_security_group" "ssh_conection" {
         cidr_blocks = ingress.value.cidr_blocks
     }
   }
-  dynamic "egress" {
-    for_each = var.egress_rules
-    content {
-        from_port = egress.value.from_port
-        to_port = egress.value.to_port
-        protocol = egress.value.protocol
-        cidr_blocks = egress.value.cidr_blocks
-    }
-  }
+
 }
 resource "aws_instance" "terraform_test" {
       #ami = "ami-0e391adda4e7c88b7"
