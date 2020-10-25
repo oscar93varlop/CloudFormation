@@ -21,6 +21,12 @@ resource "aws_security_group" "ssh_conection" {
         cidr_blocks = ingress.value.cidr_blocks
     }
   }
+  egress {
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+}
 
 }
 resource "aws_instance" "terraform_test" {
@@ -29,4 +35,13 @@ resource "aws_instance" "terraform_test" {
       instance_type = var.instance_type
       tags = var.tags
       security_groups = ["${aws_security_group.ssh_conection.name}"]
+      provisioner "remote-exec" {
+        connection {
+          type = "ssh"
+          user = "centos"
+          private_key = "${file(C:\Users\PC\Downloads\IaCtest.ppk)}"
+          host = self.public_ip
+        }
+        inline =["wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm","sudo rpm -U ./amazon-cloudwatch-agent.rpm","amazon-cloudwatch-agent-ctl -a start","amazon-cloudwatch-agent-ctl -a status","echo -e "Agente de CloudWatch ha sido instalado con exito""]
+      }
     }
