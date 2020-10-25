@@ -39,7 +39,7 @@ resource "aws_instance" "terraform_test" {
         connection {
           type = "ssh"
           user = "centos"
-          private_key = "${file(C:\Users\PC\Downloads\IaCtest.ppk)}"
+          private_key = "${file(C:\Users\PC\Downloads\IaCtest.pem)}"
           host = self.public_ip
         }
         inline =["wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm","sudo rpm -U ./amazon-cloudwatch-agent.rpm","amazon-cloudwatch-agent-ctl -a start","amazon-cloudwatch-agent-ctl -a status","echo -e "Agente de CloudWatch ha sido instalado con exito""]
